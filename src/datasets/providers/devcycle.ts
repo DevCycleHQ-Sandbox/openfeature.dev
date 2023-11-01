@@ -11,5 +11,11 @@ export const DevCycle: Provider = {
       href: 'https://www.npmjs.com/package/@devcycle/openfeature-nodejs-provider',
       category: ['Server'],
     },
+    {
+      technology: '.NET',
+      vendorOfficial: true,
+      href: 'https://github.com/DevCycleHQ/dotnet-server-sdk/',
+      category: ['Server'],
+    },
   ],
 };
