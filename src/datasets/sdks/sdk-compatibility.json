@@ -4,8 +4,8 @@
     "path": "/docs/reference/technologies/server/java",
     "category": "Server",
     "release": {
-      "href": "https://github.com/open-feature/java-sdk/releases/tag/v1.7.6",
-      "version": "1.7.6",
+      "href": "https://github.com/open-feature/java-sdk/releases/tag/v1.9.1",
+      "version": "1.9.1",
       "stable": true
     },
     "spec": {
@@ -31,7 +31,7 @@
       },
       "Domains": {
         "status": "✅",
-        "path": "/docs/reference/technologies/server/java#named-clients"
+        "path": "/docs/reference/technologies/server/java#domains"
       },
       "Eventing": {
         "status": "✅",
@@ -56,13 +56,13 @@
     "path": "/docs/reference/technologies/server/javascript",
     "category": "Server",
     "release": {
-      "href": "https://github.com/open-feature/js-sdk/releases/tag/server-sdk-v1.13.4",
-      "version": "1.13.4",
+      "href": "https://github.com/open-feature/js-sdk/releases/tag/server-sdk-v1.15.0",
+      "version": "1.15.0",
       "stable": true
     },
     "spec": {
-      "href": "https://github.com/open-feature/spec/releases/tag/v0.7.0",
-      "version": "0.7.0"
+      "href": "https://github.com/open-feature/spec/releases/tag/v0.8.0",
+      "version": "0.8.0"
     },
     "features": {
       "Providers": {
@@ -108,8 +108,8 @@
     "path": "/docs/reference/technologies/server/dotnet",
     "category": "Server",
     "release": {
-      "href": "https://github.com/open-feature/dotnet-sdk/releases/tag/v1.5.0",
-      "version": "1.5.0",
+      "href": "https://github.com/open-feature/dotnet-sdk/releases/tag/v2.0.0",
+      "version": "2.0.0",
       "stable": true
     },
     "spec": {
@@ -135,7 +135,7 @@
       },
       "Domains": {
         "status": "✅",
-        "path": "/docs/reference/technologies/server/dotnet#named-clients"
+        "path": "/docs/reference/technologies/server/dotnet#domains"
       },
       "Eventing": {
         "status": "✅",
@@ -160,8 +160,8 @@
     "path": "/docs/reference/technologies/server/go",
     "category": "Server",
     "release": {
-      "href": "https://github.com/open-feature/go-sdk/releases/tag/v1.10.0",
-      "version": "1.10.0",
+      "href": "https://github.com/open-feature/go-sdk/releases/tag/v1.12.0",
+      "version": "1.12.0",
       "stable": true
     },
     "spec": {
@@ -187,7 +187,7 @@
       },
       "Domains": {
         "status": "✅",
-        "path": "/docs/reference/technologies/server/go#named-clients"
+        "path": "/docs/reference/technologies/server/go#domains"
       },
       "Eventing": {
         "status": "✅",
@@ -212,8 +212,8 @@
     "path": "/docs/reference/technologies/server/python",
     "category": "Server",
     "release": {
-      "href": "https://github.com/open-feature/python-sdk/releases/tag/v0.6.1",
-      "version": "0.6.1",
+      "href": "https://github.com/open-feature/python-sdk/releases/tag/v0.7.1",
+      "version": "0.7.1",
       "stable": false
     },
     "spec": {
@@ -264,8 +264,8 @@
     "path": "/docs/reference/technologies/server/php",
     "category": "Server",
     "release": {
-      "href": "https://github.com/open-feature/php-sdk/releases/tag/2.0.4",
-      "version": "2.0.4",
+      "href": "https://github.com/open-feature/php-sdk/releases/tag/2.0.8",
+      "version": "2.0.8",
       "stable": true
     },
     "spec": {
@@ -316,13 +316,13 @@
     "path": "/docs/reference/technologies/client/web",
     "category": "Client",
     "release": {
-      "href": "https://github.com/open-feature/js-sdk/releases/tag/web-sdk-v1.0.2",
-      "version": "1.0.2",
+      "href": "https://github.com/open-feature/js-sdk/releases/tag/web-sdk-v1.2.2",
+      "version": "1.2.2",
       "stable": true
     },
     "spec": {
-      "href": "https://github.com/open-feature/spec/releases/tag/v0.7.0",
-      "version": "0.7.0"
+      "href": "https://github.com/open-feature/spec/releases/tag/v0.8.0",
+      "version": "0.8.0"
     },
     "features": {
       "Providers": {
@@ -364,8 +364,8 @@
     "path": "/docs/reference/technologies/client/kotlin",
     "category": "Client",
     "release": {
-      "href": "https://github.com/open-feature/kotlin-sdk/releases/tag/v0.2.3",
-      "version": "0.2.3",
+      "href": "https://github.com/open-feature/kotlin-sdk/releases/tag/v0.3.0",
+      "version": "0.3.0",
       "stable": false
     },
     "spec": {
@@ -412,8 +412,8 @@
     "path": "/docs/reference/technologies/client/swift",
     "category": "Client",
     "release": {
-      "href": "https://github.com/open-feature/swift-sdk/releases/tag/0.1.0",
-      "version": "0.1.0",
+      "href": "https://github.com/open-feature/swift-sdk/releases/tag/0.2.0",
+      "version": "0.2.0",
       "stable": false
     },
     "spec": {
