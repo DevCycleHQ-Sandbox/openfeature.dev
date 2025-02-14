@@ -46,7 +46,7 @@ export const DevCycle: Provider = {
       technology: 'Angular',
       parentTechnology: 'JavaScript',
       vendorOfficial: true,
-      href: 'https://docs.devcycle.com/sdk/client-side-sdks/angular/angular-install',
+      href: 'https://docs.devcycle.com/sdk/client-side-sdks/angular',
       category: ['Client'],
     },
     {
