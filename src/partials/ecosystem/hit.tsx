@@ -2,14 +2,32 @@ import React, { ComponentType, SVGProps } from 'react';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from '@docusaurus/Link';
+import { OverflowList } from 'react-overflow-list';
 
 import Pill from './pill';
 import { TECHNOLOGY_COLOR_MAP, TYPE_COLOR_MAP } from '../../datasets';
 import { EcosystemElement } from '../../datasets/types';
 
+type PillData = {
+  key: string;
+  color?: string;
+  label: string;
+}
+
 export default function Hit({ hit }: { hit: EcosystemElement }) {
   const external = hit.href.startsWith('http');
   const Svg: ComponentType<SVGProps<SVGSVGElement>> = hit.logo;
+
+  const pillData: PillData[] = [
+    { key: 'tech', color: TECHNOLOGY_COLOR_MAP[hit.technology], label: hit.technology },
+    hit.parentTechnology && { key: 'parent', color: TECHNOLOGY_COLOR_MAP[hit.parentTechnology], label: hit.parentTechnology },
+    { key: 'category', label: hit.category[0] },
+    { key: 'type', color: TYPE_COLOR_MAP[hit.type], label: hit.type },
+  ].filter(Boolean);
+
+  const itemRenderer = (item: PillData) => (
+    item ? <Pill key={item.key} {...(item.color && { color: item.color })}>{item.label}</Pill> : null
+  );
 
   return (
     <Link
@@ -23,15 +41,17 @@ export default function Hit({ hit }: { hit: EcosystemElement }) {
         {external && <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-4 w-4 opacity-60" />}
       </div>
       <h3>{hit.title}</h3>
-      <p className="leading-snug line-clamp-3">{hit.description}</p>
-      <div className="flex gap-2 flex-wrap-reverse mt-auto pt-4">
-        <Pill color={TECHNOLOGY_COLOR_MAP[hit.technology]}>{hit.technology}</Pill>
-        {hit.parentTechnology && (
-          <Pill color={TECHNOLOGY_COLOR_MAP[hit.parentTechnology]}>{hit.parentTechnology}</Pill>
+      <p className="h-20 leading-snug line-clamp-3">{hit.description}</p>
+      <OverflowList
+        className="flex gap-2 flex-wrap-reverse mt-auto pt-4"
+        collapseFrom="end"
+        minVisibleItems={2}
+        items={pillData}
+        itemRenderer={itemRenderer}
+        overflowRenderer={(items) => (
+          <Pill>+{items.length}</Pill>
         )}
-        <Pill>{hit.category}</Pill>
-        <Pill color={TYPE_COLOR_MAP[hit.type]}>{hit.type}</Pill>
-      </div>
+      />
     </Link>
   );
 }
