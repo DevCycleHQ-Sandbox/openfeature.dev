@@ -1,9 +1,7 @@
 import React from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 
 function HeroHome() {
-  const { siteConfig } = useDocusaurusContext();
 
   return (
     <section className="relative overflow-hidden">
