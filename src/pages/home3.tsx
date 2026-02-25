@@ -42,7 +42,10 @@ export default function Home3(): JSX.Element {
               This version emphasizes implementation clarity by pairing value messaging with an immediate SDK example.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link className="btn border-0 bg-cyan-400 text-slate-900 hover:bg-cyan-300 hover:text-slate-900" to="/docs">
+              <Link
+                className="btn border-0 bg-cyan-400 text-slate-900 hover:bg-cyan-300 hover:text-slate-900"
+                to="/docs/reference/intro"
+              >
                 Open docs
               </Link>
               <Link className="btn border border-slate-500 bg-transparent text-slate-100 hover:text-white" to="/specification">
