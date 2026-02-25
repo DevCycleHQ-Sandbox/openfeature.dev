@@ -8,6 +8,21 @@ const DEFAULT_BRANCH = 'main';
 const DEFAULT_FILE_EXTENSION = 'mdx';
 const GITHUB_ORG = 'open-feature';
 
+const SDK_NAME_TO_MCP_MAPPING: Record<string, string> = {
+  'node.js': 'nodejs',
+  'nestjs': 'nestjs',
+  'go': 'go',
+  'python': 'python',
+  'java': 'java',
+  '.net': 'dotnet',
+  'php': 'php',
+  'ruby': 'ruby',
+  'web': 'javascript',
+  'react': 'react',
+  'kotlin': 'kotlin',
+  'ios': 'swift',
+};
+
 /**
  * Converts carriage return characters to new lines. This is an important preprocessing
  * step to ensure subsequent regex's match.
@@ -97,6 +112,51 @@ Last updated at ${new Date()}
 ${content}`;
   };
 
+/**
+ * Fix internal doc links from /technologies/ to /sdks/
+ */
+const fixInternalDocLinks = (content: string): string => {
+  return content.replace(
+    /\/docs\/reference\/technologies\//g,
+    '/docs/reference/sdks/'
+  );
+};
+
+/**
+ * Add MCPInstall import statement after frontmatter
+ */
+const addMCPInstallImport = (mcpTechnology: string | undefined) => (content: string): string => {
+  if (!mcpTechnology) return content;
+  
+  const importStatement = '\nimport MCPInstall from \'@site/src/partials/mcp-install\';\n';
+  const frontmatterEnd = content.indexOf('-->');
+  
+  if (frontmatterEnd !== -1) {
+    const insertPosition = frontmatterEnd + 3;
+    return content.slice(0, insertPosition) + importStatement + content.slice(insertPosition);
+  }
+  
+  return content;
+};
+
+/**
+ * Insert MCPInstall component after "## Quick start" heading
+ */
+const insertMCPInstallComponent = (mcpTechnology: string | undefined) => (content: string): string => {
+  if (!mcpTechnology) return content;
+  
+  const quickStartPattern = /^#{1,4}\s+quick start$/mi;
+  const match = content.match(quickStartPattern);
+
+  if (match && match.index !== undefined) {
+    const insertPosition = match.index + match[0].length;
+    const component = `\n\n<MCPInstall sdkTechnology="${mcpTechnology}" />\n`;
+    return content.slice(0, insertPosition) + component + content.slice(insertPosition);
+  }
+  
+  return content;
+};
+
 const replaceLinks = (repo: { url: string; branch: string; folder?: string }) => {
   return (content: string) => {
     const replace = (processRelativeUrl: (url: string) => string) => (url: string) => {
@@ -144,6 +204,8 @@ const markdownProcessor = (sdks: SDK[]) => {
     const fileExtension = sdk.fileExtension ?? DEFAULT_FILE_EXTENSION;
     const branch = sdk.branch ?? DEFAULT_BRANCH;
 
+    const mcpTechnology = sdk.name ? SDK_NAME_TO_MCP_MAPPING[sdk.name.toLowerCase()] : undefined;
+
     const content = [
       carriageReturnsToNewLines,
       removeEmojisFromHeaders,
@@ -153,7 +215,10 @@ const markdownProcessor = (sdks: SDK[]) => {
       removeExtraNewlinesBetweenSections,
       removeExtraNewlinesAtTop,
       addHeader({ name: sdk.name, repo: sdk.repo, url: repoUrl, fileName, slug: sdk.slug, id: sdk.id }),
+      addMCPInstallImport(mcpTechnology),
       replaceLinks({ url: repoUrl, branch, folder: sdk.folder }),
+      fixInternalDocLinks,
+      insertMCPInstallComponent(mcpTechnology),
     ].reduce((currentContent, processor) => processor(currentContent), initialContent);
 
     if (sdk.includeInSupportMatrix ?? true) {
@@ -192,4 +257,94 @@ export const processSdkReadmes = {
       return `${sdk.repo}/${branch}${folder}/README.md`;
     }),
   modifyContent: markdownProcessor(SDKS),
+};
+
+/**
+ * Other Technologies content configuration
+ */
+type OtherTechnology = {
+  repo: string;
+  id: string;
+  title: string;
+  label: string;
+  position: number;
+  branch: string;
+  filename?: string;
+};
+
+const OTHER_TECHNOLOGIES: OtherTechnology[] = [
+  { repo: 'cli', id: 'cli', title: 'OpenFeature CLI', label: 'CLI', position: 1, branch: 'main' },
+  { repo: 'protocol', id: 'ofrep', title: 'OpenFeature Remote Evaluation Protocol (OFREP)', label: 'OFREP', position: 2, branch: 'main', filename: 'ofrep/index.mdx' },
+  { repo: 'mcp', id: 'mcp', title: 'OpenFeature MCP Server', label: 'MCP', position: 3, branch: 'main' },
+];
+
+/**
+ * Transforms Other Technologies READMEs for inclusion in the OpenFeature docs.
+ */
+export const processOtherTechnologies = {
+  paths: OTHER_TECHNOLOGIES.map((tech) => `${tech.repo}/${tech.branch}/README.md`),
+  modifyContent: (file: string, initialContent: string): { filename: string; content: string } => {
+    const tech = OTHER_TECHNOLOGIES.find((t) => file.startsWith(`${t.repo}/`));
+    
+    if (!tech) {
+      throw new Error(`Unable to modify content for ${file}`);
+    }
+
+    const frontmatter = `---
+title: ${tech.title}
+sidebar_label: ${tech.label}
+sidebar_position: ${tech.position}
+id: ${tech.id}
+---
+
+`;
+
+    // Convert relative links to absolute GitHub URLs
+    const fixRelativeLinks = (content: string): string => {
+      const repoUrl = `https://github.com/${GITHUB_ORG}/${tech.repo}`;
+      const branch = tech.branch || 'main';
+      
+      // Convert relative markdown links to GitHub URLs
+      return content.replace(
+        /\[([^\]]+)\]\(\.\/([^)]+)\)/g,
+        (match, text, path) => {
+          // Skip if it's already an absolute URL
+          if (path.startsWith('http')) return match;
+          return `[${text}](${repoUrl}/blob/${branch}/${path})`;
+        }
+      );
+    };
+
+    // Replace service/openapi.yaml links with docs link for OFREP OpenAPI viewer
+    const replaceOFREPOpenApiLinks = (content: string): string => {
+      if (tech.id !== 'ofrep') return content;
+      
+      // Replace links to service/openapi.yaml with docs link
+      return content.replace(
+        /\[([^\]]+)\]\([^)]*service\/openapi\.yaml[^)]*\)/g,
+        (match, text) => {
+          return `[${text}](/docs/reference/other-technologies/ofrep/openapi)`;
+        }
+      );
+    };
+
+    const processors = [
+      carriageReturnsToNewLines,
+      removeEmojisFromHeaders,
+      removeSections,
+      removeLine,
+      removeComments,
+      removeExtraNewlinesBetweenSections,
+      removeExtraNewlinesAtTop,
+      fixRelativeLinks,
+      replaceOFREPOpenApiLinks,
+    ];
+
+    const content = processors.reduce((currentContent, processor) => processor(currentContent), initialContent);
+
+    return {
+      filename: tech.filename || `${tech.id}.mdx`,
+      content: frontmatter + content,
+    };
+  },
 };

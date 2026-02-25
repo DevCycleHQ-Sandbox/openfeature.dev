@@ -12,6 +12,12 @@ export const Split: Provider = {
       category: ['Server'],
     },
     {
+      technology: 'JavaScript',
+      vendorOfficial: true,
+      href: 'https://github.com/splitio/split-openfeature-provider-web-js',
+      category: ['Client'],
+    },
+    {
       technology: 'Go',
       vendorOfficial: true,
       href: 'https://github.com/splitio/split-openfeature-provider-go',
@@ -34,6 +40,18 @@ export const Split: Provider = {
       vendorOfficial: false,
       href: 'https://github.com/open-feature/php-sdk-contrib/tree/main/providers/Split',
       category: ['Server'],
+    },
+    {
+      technology: 'Swift',
+      vendorOfficial: true,
+      href: 'https://github.com/splitio/split-openfeature-provider-swift',
+      category: ['Client'],
+    },
+    {
+      technology: 'Kotlin',
+      vendorOfficial: true,
+      href: 'https://github.com/splitio/split-openfeature-provider-android',
+      category: ['Client'],
     },
   ],
 };

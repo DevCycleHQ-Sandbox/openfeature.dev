@@ -5,6 +5,7 @@ import { AwsSSM } from './awsssm';
 import { Bucketeer } from './bucketeer';
 import { CloudBees } from './cloudbees';
 import { ConfigCat } from './configcat';
+import { Datadog } from './datadog';
 import { DevCycle } from './devcycle';
 import { EnvVar } from './env-var';
 import { Flagd } from './flagd';
@@ -12,10 +13,12 @@ import { Flagsmith } from './flagsmith';
 import { Flipt } from './flipt';
 import { Goff } from './goff';
 import { Harness } from './harness';
+import { Hyphen } from './hyphen';
 import { Kameleoon } from './kameleoon';
 import { LaunchDarkly } from './launchdarkly';
 import { MDBRules } from './mdb-rules';
 import { PostHog } from './posthog';
+import { Prefab } from './prefab';
 import { Reflag } from './reflag';
 import { Split } from './split';
 import { Unleash } from './unleash';
@@ -55,6 +58,7 @@ export const PROVIDERS: Provider[] = [
   Confidence,
   ConfigBee,
   ConfigCat,
+  Datadog,
   DevCycle,
   EnvVar,
   FeatBit,
@@ -63,11 +67,13 @@ export const PROVIDERS: Provider[] = [
   Flipt,
   Goff,
   Harness,
+  Hyphen,
   Hypertune,
   Kameleoon,
   LaunchDarkly,
   MDBRules,
   PostHog,
+  Prefab,
   Reflag,
   Split,
   Statsig,

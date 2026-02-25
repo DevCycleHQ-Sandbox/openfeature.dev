@@ -2,14 +2,20 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import AOS from 'aos';
 import React, { useEffect } from 'react';
-import QuestionBlocks from '../partials/question-blocks';
-import FeaturesZigZag from '../partials/features-zigzag';
 import HeroHome from '../partials/hero-home';
-import PageIllustration from '../partials/page-illustration';
+import ValueProposition from '../partials/value-proposition';
+import HowItWorks from '../partials/how-it-works';
+import KeyFeatures from '../partials/key-features';
+import EcosystemShowcase from '../partials/ecosystem-showcase';
+import SocialProof from '../partials/social-proof';
+import CTASection from '../partials/cta-section';
+import VideoEmbed from '../partials/video-embed';
 
 import { useLocation } from '@docusaurus/router';
 import 'aos/dist/aos.css';
 import '../css/style.css';
+
+const WHAT_IS_OPENFEATURE_VIDEO_ID = 'heQ83k15ZE4';
 
 export default function Home(): JSX.Element {
   const location = useLocation();
@@ -19,8 +25,8 @@ export default function Home(): JSX.Element {
     AOS.init({
       once: true,
       disable: 'phone',
-      duration: 1000,
-      easing: 'ease-out-sine',
+      duration: 700,
+      easing: 'ease-out-cubic',
     });
   });
 
@@ -34,15 +40,14 @@ export default function Home(): JSX.Element {
     <Layout description={siteConfig.customFields.description as string}>
       <div className="flex flex-col min-h-screen overflow-hidden">
         <main className="grow">
-          {/*  Page illustration */}
-          <div className="relative max-w-6xl mx-auto h-0 pointer-events-none" aria-hidden="true">
-            <PageIllustration />
-          </div>
-
-          {/*  Page sections */}
           <HeroHome />
-          <QuestionBlocks />
-          <FeaturesZigZag />
+          <ValueProposition />
+          <VideoEmbed videoId={WHAT_IS_OPENFEATURE_VIDEO_ID} />
+          <HowItWorks />
+          <KeyFeatures />
+          <EcosystemShowcase />
+          <SocialProof />
+          <CTASection />
         </main>
       </div>
     </Layout>

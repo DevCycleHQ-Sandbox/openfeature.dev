@@ -8,7 +8,7 @@ import { rehypeGithubAlerts } from 'rehype-github-alerts';
 import remarkGfm from 'remark-gfm';
 import tailwindcss from 'tailwindcss';
 
-import { processSdkReadmes } from './scripts/process-sdk-readmes';
+import { processSdkReadmes, processOtherTechnologies } from './scripts/process-sdk-readmes';
 
 const presetClassicOptions: PresetClassicOptions = {
   docs: {
@@ -96,7 +96,7 @@ const themeConfig: ThemeCommonConfig & AlgoliaThemeConfig = {
   announcementBar: {
     id: 'announcing-kubecon-na-25',
     content:
-      '🎉️ Meet us in Atlanta for KubeCon + CloudNativeCon North America · Nov 10-13 · <b><a target="_blank" href="https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/register/?utm_source=openfeature-dev&utm_medium=homepage&utm_campaign=10608228-KubeCon-NA-2025&utm_content=hero">Register Today!</a></b> 🥳️',
+      'Check out our <a href="/blog/kubecon-na-2025-recap">KubeCon NA \'25 recap, and our new training course!</a>',
   },
   footer: {
     style: 'dark',
@@ -172,7 +172,7 @@ const themeConfig: ThemeCommonConfig & AlgoliaThemeConfig = {
   },
   prism: {
     theme: themes.oceanicNext,
-    additionalLanguages: ['java', 'csharp', 'powershell', 'php', 'kotlin', 'ruby', 'dart'],
+    additionalLanguages: ['java', 'csharp', 'powershell', 'php', 'kotlin', 'ruby', 'dart', 'scala'],
     magicComments: [
       {
         className: 'theme-code-block-highlighted-line',
@@ -206,7 +206,6 @@ const config: Config = {
   url: 'https://openfeature.dev',
   baseUrl: '/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -284,7 +283,31 @@ const config: Config = {
       },
     },
   ],
-  presets: [['classic', presetClassicOptions]],
+  presets: [
+    ['classic', presetClassicOptions],
+    [
+      'redocusaurus',
+      {
+        specs: [
+          {
+            id: 'ofrep-api',
+            spec: 'https://raw.githubusercontent.com/open-feature/protocol/main/service/openapi.yaml',
+          },
+        ],
+        theme: {
+          primaryColor: '#1890ff',
+          options: {
+            disableSearch: true,
+            theme: {
+              sidebar: {
+                width: '0px',
+              },
+            },
+          },
+        },
+      },
+    ],
+  ],
   plugins: [
     async function tailwind() {
       return {
@@ -319,9 +342,20 @@ const config: Config = {
         name: 'sdk-content',
         noRuntimeDownloads: true,
         sourceBaseUrl: 'https://raw.githubusercontent.com/open-feature/',
-        outDir: 'docs/reference/technologies',
+        outDir: 'docs/reference/sdks',
         documents: processSdkReadmes.paths,
         modifyContent: processSdkReadmes.modifyContent,
+      },
+    ],
+    [
+      'docusaurus-plugin-remote-content',
+      {
+        name: 'other-technologies-content',
+        noRuntimeDownloads: true,
+        sourceBaseUrl: 'https://raw.githubusercontent.com/open-feature/',
+        outDir: 'docs/reference/other-technologies',
+        documents: processOtherTechnologies.paths,
+        modifyContent: processOtherTechnologies.modifyContent,
       },
     ],
     [
@@ -346,6 +380,9 @@ const config: Config = {
           if (existingPath.includes('/docs/specification')) {
             return [existingPath.replace('/docs/specification', '/specification')];
           }
+          if (existingPath.includes('/docs/reference/sdks')) {
+            return [existingPath.replace('/docs/reference/sdks', '/docs/reference/technologies')];
+          }
           return undefined; // Return a falsy value: no redirect created
         },
       },
@@ -362,8 +399,9 @@ const config: Config = {
   themeConfig,
   markdown: {
     mermaid: true,
+    hooks: { onBrokenMarkdownLinks: 'warn' },
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: ['@docusaurus/theme-mermaid', 'docusaurus-theme-redoc'],
 };
 
 export default config;

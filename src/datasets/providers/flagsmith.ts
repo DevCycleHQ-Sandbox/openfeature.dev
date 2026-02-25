@@ -41,5 +41,17 @@ export const Flagsmith: Provider = {
       href: 'https://github.com/Flagsmith/flagsmith-openfeature-provider-python',
       category: ['Server'],
     },
+    {
+      technology: 'Ruby',
+      vendorOfficial: true,
+      href: 'https://github.com/open-feature/ruby-sdk-contrib/tree/main/providers/openfeature-flagsmith-provider',
+      category: ['Server'],
+    },
+    {
+      technology: 'Rust',
+      vendorOfficial: true,
+      href: 'https://github.com/open-feature/rust-sdk-contrib/tree/main/crates/flagsmith',
+      category: ['Server'],
+    },
   ],
 };
