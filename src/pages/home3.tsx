@@ -9,13 +9,13 @@ const audienceTracks = [
     title: 'Application engineers',
     body: 'Integrate feature evaluation in a few lines and keep application code stable over time.',
     linkLabel: 'SDK docs',
-    linkTo: '/docs/reference/technologies/index',
+    linkTo: '/docs/reference/technologies',
   },
   {
     title: 'Platform teams',
     body: 'Set standards for providers, hooks, and evaluation context that scale across services.',
     linkLabel: 'Concepts',
-    linkTo: '/docs/reference/concepts/01-evaluation-api',
+    linkTo: '/docs/reference/concepts/evaluation-api',
   },
   {
     title: 'Tool vendors',

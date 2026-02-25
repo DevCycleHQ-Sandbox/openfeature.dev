@@ -62,13 +62,13 @@ export default function Home2(): JSX.Element {
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <Link
                   className="btn text-white hover:text-white bg-emerald-600 hover:bg-emerald-500 sm:w-auto w-full"
-                  to="/docs/reference/concepts/01-evaluation-api"
+                  to="/docs/reference/concepts/evaluation-api"
                 >
                   See evaluation API
                 </Link>
                 <Link
                   className="btn text-white hover:text-white bg-slate-800 hover:bg-slate-700 sm:w-auto w-full"
-                  to="/docs/reference/technologies/index"
+                  to="/docs/reference/technologies"
                 >
                   Browse technologies
                 </Link>
